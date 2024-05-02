@@ -35,4 +35,4 @@ Execute the ```demo_notebook.ipynb``` using your freshly created environment.
 2. On the top right, you click ```Import .ipynb File```.
 3. Select the ```demo_notebook.ipynb```
 4. Add the required packages at the top right and specify the correct versions as shown in this image:  
-<img src="assets/package_versions_snowflake_notebook.png" alt="packages" height="20%" width="20%" align="left"/>
+<img src="assets/package_versions_snowflake_notebook.png" alt="packages" height="40%" width="40%" align="left"/>
