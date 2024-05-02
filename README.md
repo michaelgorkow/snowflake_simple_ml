@@ -28,7 +28,16 @@ To create a fresh environment, simply run this command and then select ```simple
 conda env create -f conda_env.yml
 ```
 
-Execute the ```demo_notebook.ipynb``` using your freshly created environment.
+You'll also have to create a .env file in your working directory and specify your credentials.  
+The .env file should look like this:
+```
+SF_ACCOUNT=ORG-ACCOUNT
+SF_USER=USERNAME
+SF_ROLE=ROLE
+SF_PASSWORD=PASSWORD
+```
+
+Afterwards, execute the ```demo_notebook.ipynb``` using your freshly created environment.
 
 # How to run this example in Snowflake Notebooks
 1. On the right side under ```Projects``` you click ```Notebooks```.
