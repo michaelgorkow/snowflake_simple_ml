@@ -9,7 +9,7 @@ dependencies:
   - snowflake-ml-python==1.3.0
   - snowflake-snowpark-python[pandas]==1.14.0
   - scikit-learn==1.3.0
-  - xgboost==1.7.6
+  - xgboost==1.7.3
   - python-dotenv
   - pip:
     - snowflake==0.5.1
