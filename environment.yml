@@ -2,8 +2,9 @@ name: app_environment
 channels:
   - snowflake
 dependencies:
-  - python=3.11
-  - ipykernel
+  - python=3.9.*
+  - snowbooks=1.32.0
+  - streamlit=1.26.0
   - matplotlib==3.8.4
   - seaborn==0.12.2
   - snowflake-ml-python==1.5.0
