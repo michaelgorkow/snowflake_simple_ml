@@ -25,7 +25,7 @@ This will ensure that you have all the required dependencies.
 
 To create a fresh environment, simply run this command and then select ```simple-ml-demo``` as your working environment in your IDE:
 ```bash
-conda env create -f conda_env.yml
+conda env create -f environment_local.yml
 ```
 
 You'll also have to create a .env file in your working directory and specify your credentials.  
