@@ -4,6 +4,7 @@ from matplotlib.dates import DateFormatter
 import matplotlib.cm as cm
 import networkx as nx
 import matplotlib.colors as mcolors
+import snowflake.snowpark.functions as F
 
 def plot_evidently_results(drift_detection_results):
     # Extracting summary data
