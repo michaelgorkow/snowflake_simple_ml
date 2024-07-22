@@ -7,11 +7,11 @@ In this example, you'll perform the following steps:
 1. Import required Libraries
 2. Create or Retrieve a Snowflake Session
 3. Setup your Snowflake environment (Database, Schema, Warehouse)
-4. Create an articial E-Commerce dataset 
+4. Create an artificial E-Commerce dataset 
 5. Feature Engineering (Variable Imputation & Encoding)
 6. Distributed Hyperparameter Tuning for an XGBoost Regression Model
 7. Evaluate your trained Model
-8. Register your Model in Snowflake's Model Registry
+8. Register your Model in Snowflake's Model Registry and visualize the Lineage
 9. Automate the full pipeline with Snowflake's Python API
 10. Clean Up
 
