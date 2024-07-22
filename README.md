@@ -17,6 +17,7 @@ In this example, you'll perform the following steps:
 
 ## Requirements
 * Snowflake Account
+* ML Lineage Feature (currently in PrPr, needs to be requested)
 
 ## Get Started
 Register for a free Snowflake Trial Account:
