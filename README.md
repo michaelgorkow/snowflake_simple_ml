@@ -17,31 +17,57 @@ In this example, you'll perform the following steps:
 
 ## Requirements
 * Snowflake Account
-* Access to Snowflake Notebooks (optional, currently in PrPr)
 
-# How to run this example with your local IDE
-If you prefer to run this example with your local environment, please make sure to create a fresh environment with the provided ```conda_env.yml```.  
-This will ensure that you have all the required dependencies.
+## Get Started
+Register for a free Snowflake Trial Account:
+- [Free Snowflake Trial Account](https://signup.snowflake.com/)
 
-To create a fresh environment, simply run this command and then select ```simple-ml-demo``` as your working environment in your IDE:
-```bash
-conda env create -f environment_local.yml
+> [!IMPORTANT]
+> Some features like the Feature Store require Snowflake Enterprise Edition or higher. Availability of specific Cortex LLM models can be found [here](https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions#availability).
+
+Integrate this Github Repository with Snowflake by running the following SQL code in a Snowflake Worksheet:
+```sql
+USE ROLE ACCOUNTADMIN;
+
+-- Create warehouses
+CREATE WAREHOUSE IF NOT EXISTS TRAIN_WH WITH WAREHOUSE_SIZE='MEDIUM';
+CREATE WAREHOUSE IF NOT EXISTS COMPUTE_WH WITH WAREHOUSE_SIZE='X-SMALL';
+
+-- Create a fresh Database
+CREATE OR REPLACE DATABASE SIMPLE_ML_DB;
+USE SCHEMA SIMPLE_ML_DB.PUBLIC;
+
+-- Create the integration with Github
+CREATE OR REPLACE API INTEGRATION GITHUB_INTEGRATION_SIMPLE_ML_DEMO
+    api_provider = git_https_api
+    api_allowed_prefixes = ('https://github.com/michaelgorkow/')
+    enabled = true
+    comment='Michaels repository containing all the awesome code.';
+
+-- Create the integration with the Github repository
+CREATE GIT REPOSITORY GITHUB_REPO_SIMPLE_ML_DEMO 
+	ORIGIN = 'https://github.com/michaelgorkow/snowflake_simple_ml' 
+	API_INTEGRATION = 'GITHUB_INTEGRATION_SIMPLE_ML_DEMO' 
+	COMMENT = 'Michaels repository containing all the awesome code.';
+
+-- Fetch most recent files from Github repository
+ALTER GIT REPOSITORY GITHUB_REPO_SIMPLE_ML_DEMO FETCH;
+
+-- Create demo notebook
+CREATE OR REPLACE NOTEBOOK SIMPLE_ML_DB.PUBLIC.SIMPLE_ML_DEMO FROM '@SIMPLE_ML_DB.PUBLIC.GITHUB_REPO_SIMPLE_ML_DEMO/branches/main/' MAIN_FILE = 'demo_notebook.ipynb' QUERY_WAREHOUSE = compute_wh;
+ALTER NOTEBOOK SIMPLE_ML_DB.PUBLIC.SIMPLE_ML_DEMO ADD LIVE VERSION FROM LAST;
 ```
 
-You'll also have to create a .env file in your working directory and specify your credentials.  
-The .env file should look like this:
-```
-SF_ACCOUNT=ORG-ACCOUNT
-SF_USER=USERNAME
-SF_ROLE=ROLE
-SF_PASSWORD=PASSWORD
-```
+## Snowflake Features in this demo
+* [Snowflake's Git Integration](https://docs.snowflake.com/en/developer-guide/git/git-overview)
+* [Snowpark](https://docs.snowflake.com/en/developer-guide/snowpark/python/index)
+* [Snowpark ML](https://docs.snowflake.com/en/developer-guide/snowpark-ml/overview)
+* [Snowflake Feature Store](https://docs.snowflake.com/en/developer-guide/snowpark-ml/feature-store/overview)
+* [Snowflake Model Registry](https://docs.snowflake.com/en/developer-guide/snowpark-ml/model-registry/overview)
+* [Snowflake Cortex](https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions)
 
-Afterwards, execute the ```demo_notebook.ipynb``` using your freshly created environment.
-
-# How to run this example in Snowflake Notebooks
-1. On the right side under ```Projects``` you click ```Notebooks```.
-2. On the top right, you click ```Import .ipynb File```.
-3. Select the ```demo_notebook.ipynb```
-4. Add the required packages at the top right and specify the correct versions as shown in this image:  
-<img src="assets/package_versions_snowflake_notebook.png" alt="packages" height="40%" width="40%" align="left"/>
+## API Documentation
+* [Snowpark API](https://docs.snowflake.com/developer-guide/snowpark/reference/python/latest/snowpark/index)
+* [Snowpark ML API](https://docs.snowflake.com/en/developer-guide/snowpark-ml/reference/latest/index)
+* [Snowflake Feature Store API](https://docs.snowflake.com/en/developer-guide/snowpark-ml/reference/latest/feature_store)
+* [Snowflake Model Registry API](https://docs.snowflake.com/en/developer-guide/snowpark-ml/reference/latest/registry)
