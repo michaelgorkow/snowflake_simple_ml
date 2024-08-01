@@ -27,7 +27,7 @@ def plot_evidently_results(drift_detection_results):
     feature_drift_df = pd.DataFrame(feature_drift)
 
     # Plotting
-    fig, ax = plt.subplots(1, 3, figsize=(10, 2))
+    fig, ax = plt.subplots(1, 3, figsize=(10, 5))
 
     # Summary plot
     ax[0].bar(summary_data['by_status'].keys(), summary_data['by_status'].values(), color=['red', 'green'])
