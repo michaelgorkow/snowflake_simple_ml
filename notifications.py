@@ -5,13 +5,13 @@ import pytz
 # Set timezone
 tz = pytz.timezone('Europe/Berlin')
 
-def generate_sql_slack_message(data: str):
+def generate_sql_slack_message(data: str, file: str):
     # Generate the current timestamp
     current_timestamp = datetime.now(tz).strftime("%d-%m-%Y %H:%M:%S")
     
     # Generate summary 
     summary = data['summary']
-    summary_json = f"📅 {current_timestamp} \n✅ *Successful tests:* {summary['success_tests']} \n❌ *Failed_ tests:* {summary['failed_tests']}"
+    summary_json = f"📅 {current_timestamp} \n✅ *Successful tests:* {summary['success_tests']} \n❌ *Failed_ tests:* {summary['failed_tests']-1} \n📊 <{file}|Download Report>"
     
     # Generate table with column test status
     df = pd.DataFrame(data['tests'])[1:]
@@ -50,7 +50,7 @@ def generate_sql_slack_message(data: str):
                 SNOWFLAKE.NOTIFICATION.INTEGRATION('my_slack_webhook_int'))"""
     return sql
 
-def generate_sql_email_message(data: str):
+def generate_sql_email_message(data: str, file: str):
     # Generate the current timestamp
     current_timestamp = datetime.now(tz).strftime("%d-%m-%Y %H:%M:%S")
    
@@ -66,6 +66,8 @@ def generate_sql_email_message(data: str):
     📅 {current_timestamp} <br>
     ✅ Successful tests: {summary['success_tests']} <br>
     ❌ Failed_ tests: {summary['failed_tests']} <br>
+    📊 <a href="{file}">Download Report</a>
+    
     <p>{df.to_html().replace("'",'"')}</p>
     """
     
