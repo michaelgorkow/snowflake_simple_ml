@@ -11,7 +11,7 @@ def generate_sql_slack_message(data: str, file: str):
     
     # Generate summary 
     summary = data['summary']
-    summary_json = f"📅 {current_timestamp} \n✅ *Successful tests:* {summary['success_tests']} \n❌ *Failed_ tests:* {summary['failed_tests']-1} \n📊 <{file}|Download Report>"
+    summary_json = f"📅 {current_timestamp} \n✅ *Successful tests:* {summary['success_tests']} \n❌ *Failed_ tests:* {summary['failed_tests']} \n📊 <{file}|Download Report>"
     
     # Generate table with column test status
     df = pd.DataFrame(data['tests'])[1:]
@@ -65,7 +65,7 @@ def generate_sql_email_message(data: str, file: str):
     email_content = f"""
     📅 {current_timestamp} <br>
     ✅ Successful tests: {summary['success_tests']} <br>
-    ❌ Failed_ tests: {summary['failed_tests']-1} <br>
+    ❌ Failed_ tests: {summary['failed_tests']} <br>
     📊 <a href="{file}">Download Report</a>
     
     <p>{df.to_html().replace("'",'"')}</p>
