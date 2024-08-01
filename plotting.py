@@ -27,7 +27,7 @@ def plot_evidently_results(drift_detection_results):
     feature_drift_df = pd.DataFrame(feature_drift)
 
     # Plotting
-    fig, ax = plt.subplots(1, 3, figsize=(21, 6))
+    fig, ax = plt.subplots(1, 3, figsize=(10, 2))
 
     # Summary plot
     ax[0].bar(summary_data['by_status'].keys(), summary_data['by_status'].values(), color=['red', 'green'])
@@ -57,7 +57,7 @@ def plot_model_metrics(model_metrics):
     colors = cm.get_cmap('tab10', len(model_metrics))
 
     # Plotting the MAPE values on a time axis
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(8, 3))
 
     for i, row in model_metrics.iterrows():
         plt.plot(row['created_on'], row['MAPE'], marker='o', linestyle='-', color=colors(i), label=row['name'], markersize=10)
