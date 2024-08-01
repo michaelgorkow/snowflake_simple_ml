@@ -12,12 +12,13 @@ In this example, you'll perform the following steps:
 6. Distributed Hyperparameter Tuning for an XGBoost Regression Model
 7. Evaluate your trained Model
 8. Register your Model in Snowflake's Model Registry and visualize the Lineage
-9. Automate the full pipeline with Snowflake's Python API
+9. Automate the full pipeline with Snowflake's Python API and Notification Integrations
 10. Clean Up
 
 ## Requirements
 * Snowflake Account
 * ML Lineage Feature (currently in PrPr, needs to be requested)
+* [Slack App with Secret](https://docs.snowflake.com/en/user-guide/notifications/webhook-notifications#example-1-creating-a-secret-for-a-slack-webhook) (only required if you want to send notifications to Slack)
 
 ## Get Started
 Register for a free Snowflake Trial Account:
@@ -57,6 +58,23 @@ ALTER GIT REPOSITORY GITHUB_REPO_SIMPLE_ML_DEMO FETCH;
 -- Create demo notebook
 CREATE OR REPLACE NOTEBOOK SIMPLE_ML_DB.PUBLIC.SIMPLE_ML_DEMO FROM '@SIMPLE_ML_DB.PUBLIC.GITHUB_REPO_SIMPLE_ML_DEMO/branches/main/' MAIN_FILE = 'demo_notebook.ipynb' QUERY_WAREHOUSE = compute_wh;
 ALTER NOTEBOOK SIMPLE_ML_DB.PUBLIC.SIMPLE_ML_DEMO ADD LIVE VERSION FROM LAST;
+
+-- Create Email Notification Integration
+CREATE OR REPLACE NOTIFICATION INTEGRATION my_email_int
+  TYPE=EMAIL
+  ENABLED=TRUE;
+
+-- Create Slack Notification Integration (Optional)
+CREATE OR REPLACE SECRET my_slack_webhook_secret
+  TYPE = GENERIC_STRING
+  SECRET_STRING = 'T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX'; -- replace with your secret
+
+CREATE OR REPLACE NOTIFICATION INTEGRATION my_slack_webhook_int
+  TYPE=WEBHOOK
+  ENABLED=TRUE
+  WEBHOOK_URL='https://hooks.slack.com/services/SNOWFLAKE_WEBHOOK_SECRET'
+  WEBHOOK_SECRET=my_slack_webhook_secret
+  WEBHOOK_HEADERS=('Content-Type'='application/json');
 ```
 
 ## Snowflake Features in this demo
@@ -66,6 +84,7 @@ ALTER NOTEBOOK SIMPLE_ML_DB.PUBLIC.SIMPLE_ML_DEMO ADD LIVE VERSION FROM LAST;
 * [Snowflake Feature Store](https://docs.snowflake.com/en/developer-guide/snowpark-ml/feature-store/overview)
 * [Snowflake Model Registry](https://docs.snowflake.com/en/developer-guide/snowpark-ml/model-registry/overview)
 * [Snowflake Cortex](https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions)
+* [Snowflake Notifications](https://docs.snowflake.com/en/user-guide/notifications/about-notifications)
 
 ## API Documentation
 * [Snowpark API](https://docs.snowflake.com/developer-guide/snowpark/reference/python/latest/snowpark/index)
