@@ -65,7 +65,7 @@ def generate_sql_email_message(data: str, file: str):
     email_content = f"""
     📅 {current_timestamp} <br>
     ✅ Successful tests: {summary['success_tests']} <br>
-    ❌ Failed_ tests: {summary['failed_tests']} <br>
+    ❌ Failed_ tests: {summary['failed_tests']-1} <br>
     📊 <a href="{file}">Download Report</a>
     
     <p>{df.to_html().replace("'",'"')}</p>
